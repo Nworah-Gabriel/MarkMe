@@ -30,8 +30,6 @@ body {
   overflow: hidden;
   transition: 0.5s;
   padding-top: 30px;
-  border-right: 2px;
-  border-color: #ddd;
 }
 .sidenav a {
   padding: 15px 8px 15px 32px;
@@ -39,11 +37,13 @@ body {
   font-size: 20px;
   color: #a0bacc;
   display: block;
-  transition: 0.3s;
+  transition: 0.2s;
+  border-radius: 20px;
 }
 .sidenav a:hover {
   color: #f1f1f1;
   background-color:#05384e;
+  border-radius: 30px;
 }
 .sidenav{
   position: absolute;

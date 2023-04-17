@@ -1,3 +1,27 @@
+#table-scroll::-webkit-scrollbar {
+  width: 5px;
+}
+
+/* Track */
+#table-scroll::-webkit-scrollbar-track {
+  background: #05384e; 
+  /* #acb6bb */
+  border-radius: 30px;
+}
+ 
+
+/* Handle */
+#table-scroll::-webkit-scrollbar-thumb {
+ 	background: #a87912;
+  border-radius: 30px;
+} 
+
+/* Handle on hover */
+#table-scroll::-webkit-scrollbar-thumb:hover {
+  background: #dba022; 
+  border-radius: 30px;
+}
+
 body {
 	margin:0px;
 	padding: 0px;
@@ -130,6 +154,9 @@ body {
 .content-box{
 	padding: 20px;
 }
+#table-scroll {
+  overflow-y: scroll
+}
 .content-box p{
 	margin: 0px;
     font-size: 20px;
@@ -156,8 +183,6 @@ body {
 }
 .table{
   height: 200px;
-  overflow-x: auto;
-  overflow-y: scroll;
 }
 #table{
   width: 90%;
@@ -265,3 +290,4 @@ form button{
   position: absolute;
   cursor: pointer;
 }
+

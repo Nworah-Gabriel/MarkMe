@@ -51,8 +51,8 @@ form.addEventListener("submit", (e) => {
       <td>${dataTwo.text}</td>
       <td>
         <span class="options">
-        <i onClick="markData(this)" class="fa fa-check-square" aria-hidden="true"></i>
-        <i onclick="editData(this)" class="fa fa-pencil-square-o" aria-hidden="true"></i>
+        <i onClick="deleteData(this)" class="fa fa-trash-o" aria-hidden="true"></i>
+        <i onclick="markData(this)" class="fa fa-check-square" aria-hidden="true"></i>
 
         </span></td>
     </tr>`;
@@ -66,3 +66,6 @@ form.addEventListener("submit", (e) => {
   function closeModal() {
     mark.classList.add('mark')
   }
+  let deleteData = (e) => {
+    e.parentElement.parentElement.parentElement.remove();
+  };

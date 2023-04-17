@@ -154,11 +154,13 @@ body {
 .box-8{
 	margin-left: 10px;
 }
-table {
-  font-family: arial, sans-serif;
-  border-collapse: collapse;
-  width: 100%;
-  
+.table{
+  height: 200px;
+  overflow-x: auto;
+  overflow-y: scroll;
+}
+#table{
+  width: 90%;
 }
 td, th {
   text-align: left;
@@ -166,7 +168,11 @@ td, th {
   color: #ddd;
   border-bottom: 1px solid #81818140;
 }
-
+i{
+  padding: 5px;
+  height: 15px;
+  width: 15px;
+}
 .addCourse {
   color: #fff5de;
   background-color: #a87912;
@@ -190,12 +196,15 @@ td, th {
 }
 input{
   width: 85%;
-  height: 30px;
+  height: 40px;
   margin-top: 20px;
   margin-left: 5%;
+  border-radius: 20px;
+  border: none;
 }
 input::placeholder{
-  font-size: larger;
+  font-size: 1.4em;
+  margin-left: 20px;
 }
 form button{
   padding: 10px;
@@ -216,7 +225,7 @@ form button{
   top: 300px;
   right: 20px;
   background-color: #a87912;
-  height: 300px;
+  height: 350px;
   width: 400px;
   animation: slide .5s;
   border-radius: 30px;

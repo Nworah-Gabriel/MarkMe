@@ -1,6 +1,8 @@
 from django.contrib import admin
 from django.urls import path
+from .views import dashboard, attendance
 
 urlpatterns = [
-    path('/', admin.site.urls),
+    path('dashboard', dashboard),
+    path('attendance', attendance)
 ]

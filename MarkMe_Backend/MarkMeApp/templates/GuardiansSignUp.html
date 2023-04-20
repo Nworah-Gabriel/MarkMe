@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signup - MarkMe</title>
+    <link rel="stylesheet" href="../static/css/signup.css">
+</head>
+<body>
+    <header>
+        <h1>Create a Guardian MarkMe Account</h1>
+    </header>
+
+    <main>
+        <form method="POST">
+            {% csrf_token %}
+            {% load widget_tweaks %}
+
+            <label for="lastname">Username:</label>
+            {% render_field user.username id="name" type="text" %}
+
+            <label for="email">Email Address:</label>
+            {% render_field user.email_address id="email" type="email" %}
+
+            <label for="password">Password:</label>
+            {% render_field user.password id="password" type="password" %}
+
+            <label for="confirm_password">Confirm Password:</label>
+            <input type="password" id="confirm_password" name="confirm_password" required>
+
+            <input type="submit" value="Create Account">
+        </form>
+
+        <p>Already have an account? <a href="login.html">Login here.</a></p>
+    </main>
+
+    <footer>
+        <p>&copy; 2023 MarkMe. All rights reserved.</p>
+        <ul>
+            <li><a href="#">Facebook</a></li>
+            <li><a href="#">Twitter</a></li>
+            <li><a href="#">LinkedIn</a></li>
+            <li><a href="#">Instagram</a></li>
+        </ul>
+    </footer>
+</body>
+</html>

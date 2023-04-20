@@ -11,8 +11,8 @@ class InstructorsForm(forms.Form):
     username = forms.CharField(max_length=200)
     first_name = forms.CharField(max_length=100)
     last_name = forms.CharField(max_length=100)
-    institutions = models.CharField(max_length=500)
-    password = models.CharField(max_length=50)
+    institutions = forms.CharField(max_length=500)
+    password = forms.CharField(max_length=50)
 
 
 class StudentsForm(forms.Form):
@@ -20,37 +20,44 @@ class StudentsForm(forms.Form):
     A form class created for the students
     """
 
-    username = models.CharField(max_length=200)
+    username = forms.CharField(max_length=200)
     first_name = forms.CharField(max_length=100)
     last_name = forms.CharField(max_length=100)
     institutions = forms.CharField(max_length=200)
     password = forms.CharField(max_length=50)
 
 
-class Guardians(forms.Form):
+class GuardiansForm(forms.Form):
     """
     A form class created for the guardians
     """
 
-    username = models.CharField(max_length=200)
-    first_name = forms.CharField(max_length=100)
-    last_name = forms.CharField(max_length=100)
+    username = forms.CharField(max_length=200)
+    email_address = forms.CharField(max_length=100)
     password = forms.CharField(max_length=50)
 
 
-class Courses(forms.Form):
+class CoursesForm(forms.Form):
     """
     A form class created for storing registering courses
     """
 
-    name = models.CharField(max_length=200)
-    course_code = models.CharField(null=True, blank=True, max_length=20)
+    name = forms.CharField(max_length=200)
+    course_code = forms.CharField(max_length=20)
 
 
-class Institutions(forms.Form):
+class InstitutionsForm(forms.Form):
     """
     A form class created for registering institutions
     """
 
-    name = models.CharField(max_length=500)
-    Type = models.CharField(max_length=100, choices=choice)
+    name = forms.CharField(max_length=500)
+    Type = forms.CharField(max_length=100)
+
+class loginForm(forms.Form):
+    """
+    A form class created for logging in users
+    """
+
+    username = forms.CharField(max_length=50)
+    password = forms.CharField(max_length=30)

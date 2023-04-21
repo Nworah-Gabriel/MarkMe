@@ -1,7 +1,7 @@
 <!Doctype HTML>
 <html>
 <head>
-	<title></title>
+	<title>Dashboard - Markme</title>
 	<link rel="stylesheet" href="../static/css/style.css" type="text/css"/>
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
@@ -10,11 +10,11 @@
 <body>
 	
 	<div id="mySidenav" class="sidenav">
-    <p class="logo"><span><i class="fa fa-medium icons" style="margin-right: 18px;"></i></span>arkMe</p>
+  <p class="logo"><span><i class="fa fa-medium icons" style="margin-right: 18px;"></i></span>arkMe</p>
   <a href="dashboard" class="icon-a"><i class="fa fa-dashboard icons"></i> &nbsp;&nbsp;Dashboard</a>
   <a href="attendance"class="icon-a"><i class="fa fa-list icons"></i> &nbsp;&nbsp;Attendance</a>
   <a href="#"class="icon-a"><i class="fa fa-flag icons"></i> &nbsp;&nbsp;Report</a>
-  <a href="#"class="icon-a"><i class="fa fa-cog icons"></i> &nbsp;&nbsp;Settings</a>
+  <a href="createInstitution" class="icon-a"><i class="fa fa-cog icons"></i> &nbsp;&nbsp;Create Institute</a>
   <a href="logout"class="icon-a"><i class="fa fa-sign-out icons"></i> &nbsp;&nbsp;Logout</a>
 </div>
 <div id="main">
@@ -60,16 +60,6 @@
 
           </span></td>
       </tr>
-      <tr>
-        <td>Mathematics</td>
-        <td>2022/23</td>
-        <td>
-          <span class="options">
-            <i onclick="deleteData(this)" class="fa fa-trash-o" aria-hidden="true"></i>
-          <i onclick="markData(this)" class="fa fa-check-square" aria-hidden="true"></i>
-
-          </span></td>
-      </tr>
     </table>
   </div>
 </div>
@@ -81,8 +71,12 @@
 		<div class="box-4 modal" id="modal">
 		  <div class="content-box">
         <form action="" id="form">
-          <input type="text" name="title" id="title" placeholder="     Course Title" required>
-          <input type="text" name="session" id="session" placeholder="     Academic Session" required>
+          {% csrf_token %}
+          {% load widget_tweaks %}
+          {% render_field course.name id="title" type="text" placeholder="  Course Title" %}
+          {% render_field course.academic_session id="session" type="text" placeholder=" Academic Session" %}
+          <!-- <input type="text" name="title" id="title" placeholder="     Course Title" required> -->
+          <!-- <input type="text" name="session" id="session" placeholder="     Academic Session" required> -->
           <button onclick="markAttendance()">Submit</button>
         </form>
       </div>

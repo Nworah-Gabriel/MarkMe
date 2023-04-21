@@ -2,16 +2,19 @@
 A module that handles forms
 """
 from django import forms
+from django.forms import ModelForm
+from .models import Institutions, Courses
+
 
 class InstructorsForm(forms.Form):
     """
     A form class created for the instructors
     """
 
+    name = forms.CharField(max_length=200)
     username = forms.CharField(max_length=200)
-    first_name = forms.CharField(max_length=100)
-    last_name = forms.CharField(max_length=100)
-    institutions = forms.CharField(max_length=500)
+    email = forms.EmailField(max_length=100)
+    institution = forms.CharField(max_length=500)
     password = forms.CharField(max_length=50)
 
 
@@ -19,11 +22,10 @@ class StudentsForm(forms.Form):
     """
     A form class created for the students
     """
-
+    name = forms.CharField(max_length=200)
     username = forms.CharField(max_length=200)
-    first_name = forms.CharField(max_length=100)
-    last_name = forms.CharField(max_length=100)
-    institutions = forms.CharField(max_length=200)
+    email = forms.EmailField(max_length=100)
+    institution = forms.CharField(max_length=200)
     password = forms.CharField(max_length=50)
 
 
@@ -37,22 +39,24 @@ class GuardiansForm(forms.Form):
     password = forms.CharField(max_length=50)
 
 
-class CoursesForm(forms.Form):
+class CoursesForm(ModelForm):
     """
     A form class created for storing registering courses
     """
 
-    name = forms.CharField(max_length=200)
-    course_code = forms.CharField(max_length=20)
+    
+    class Meta:
+        model = Courses
+        fields = ["name", "academic_session"]
 
 
-class InstitutionsForm(forms.Form):
+class InstitutionsForm(ModelForm):
     """
-    A form class created for registering institutions
+    A model form class created for registering institutions
     """
-
-    name = forms.CharField(max_length=500)
-    Type = forms.CharField(max_length=100)
+    class Meta:
+        model = Institutions
+        fields = ["name", "Type"]
 
 class loginForm(forms.Form):
     """

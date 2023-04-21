@@ -3,37 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - MarkMe</title>
+    <title>Institution Registration</title>
     <link rel="stylesheet" href="../static/css/signup.css">
 </head>
 <body>
     <header>
-        <h1>Login to Your MarkMe Account</h1>
+        <h1>Create an Institution MarkMe Account</h1>
     </header>
 
     <main>
-        <form action="login" method="POST">
+        <form method="POST">
             {% csrf_token %}
             {% load widget_tweaks %}
 
             {% if error %}
                 <p style="color:red; text-align: center; font-size: 18px;">{{ error }}</p>
             {% endif %}
-            <label for="lastname">Username:</label>
-            {% render_field login.username id="name" type="text" %}
 
-            <label for="password">Password:</label>
-            {% render_field login.password id="password" type="password" %}
+            <label for="lastname">Institution Name:</label>
+            {% render_field user.name id="name" type="text" %}
 
-            <label>
-                <input type="checkbox" name="remember_me">
-                Remember Me
-            </label>
+            <label for="email">Type:</label>
+            {% render_field user.Type id="email" type="text" style="height: 40px; border: 1px solid rgb(188, 188, 188); border-radius: 5px;" %}
 
-            <input type="submit" value="Login">
+            <input type="submit" value="Create Account" style="margin-top: 15px;">
         </form>
 
-        <p>Don't have an account? <a href="signup.html">Sign up here.</a></p>
+        <p>Already have an account? <a href="login.html">Login here.</a></p>
     </main>
 
     <footer>

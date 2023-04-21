@@ -16,7 +16,18 @@ from uuid import uuid4
 def attendance(request):
     return render(request, "attendance.html")
 
+def createInstitution(request):
+    form = InstitutionsForm(request.POST)
 
+    # try:
+    if request.method == 'POST':
+        if form.is_valid():
+            form.save()
+        return HttpResponseRedirect('dashboard')
+    # except:
+        # error = "Invalid form or Institution already exist"
+        # return render(request, "InstitutionReg.html", {"user":form, "error":error})
+    return render(request, "InstitutionReg.html", {"user":form})
 
 #--USER SIGNUP AND LOGIN VIEWS ARE CREATED BELOW--#
 def StudentSignUp(request):
@@ -31,8 +42,35 @@ def InstructorSignUp(request):
     """
     A functional based view for instructor signup form
     """
+    form = InstructorsForm(request.POST)
 
-    return render(request, "InstructorSignUp.html")
+    if request.method == 'POST':
+        if form.is_valid():
+            name = form.cleaned_data["name"]
+            institution = form.cleaned_data["institution"]
+            username = form.cleaned_data["username"]
+            password = form.cleaned_data["password"]
+            email = form.cleaned_data["email"]
+
+            try:
+                institute = Institutions.objects.get(name=institution)
+
+                instructor = Instructors(
+                    name=name,
+                    username=username,
+                    email=email,
+                    institutions = institute,
+                )
+                instructor.set_password(password)
+                instructor.save()
+                return HttpResponseRedirect('login')
+            
+            except Institutions.DoesNotExist:
+                error = "Institution does not exist"
+                return render(request, 'login.html', {'login':form, 'error':error})
+            
+         
+    return render(request, "InstructorSignUp.html", {"user":form})
 
 
 def GuardianSignUp(request):
@@ -103,9 +141,42 @@ class dashboard(LoginRequiredMixin, View):
         if isinstance(user, AnonymousUser):
             return HttpResponse("You cannot access this view")
         else:
-            value = Guardians.objects.get(username=user.username)
-            print(value.unique_id)
-            return render(request, "dashboard.html", {"user":user, "id":str(value.unique_id)})
+            try:
+                value = Guardians.objects.get(username=user.username)
+            except Guardians.DoesNotExist:
+                try:
+                    value = Instructors.objects.get(username=user.username)
+                    registeredCourses = value.courses.all()
+                except Instructors.DoesNotExist:
+                    try:
+                        value = Students.objects.get(username=user.username)
+                        registeredCourses = value.courses.all()
+                        return render(
+                            request,
+                            "dashboard.html",
+                            {"user":user,
+                            "id":str(value.email),
+                            "course": course,
+                            "registeredCourses": registeredCourses,
+                            "instructor": "True",
+                            },
+                            )
+                    except Students.DoesNotExist:
+                        return HttpResponseRedirect('login')
+
+            course = CoursesForm(request.POST)
+            if request.method == 'POST':
+                if course.is_valid():
+                    course.save()
+
+
+            return render(
+                request,
+                "dashboard.html",
+                {"user":user,
+                 "id":str(value.email),
+                 "course": course},
+                )
 
 
 class logoutView(View):

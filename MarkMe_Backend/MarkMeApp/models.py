@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from datetime import datetime
 import uuid
-
+from secrets import token_urlsafe
 
 # Create your models here.
 
@@ -17,8 +17,9 @@ class Instructors(User):
     unique_id = models.UUIDField(default=uuid.uuid4)
     institutions = models.ForeignKey(to="Institutions", on_delete=models.DO_NOTHING)
     attendance = models.ManyToManyField(to="Attendance")
+    attendance_id = models.CharField(max_length=10, default=token_urlsafe(4))
 
-
+   
 class Students(User):
     """
     A model class created for the students
@@ -30,6 +31,7 @@ class Students(User):
     unique_id = models.UUIDField(default=uuid.uuid4)
     institutions = models.ForeignKey(to="Institutions", on_delete=models.DO_NOTHING)
     attendance = models.ManyToManyField(to="Attendance")
+    attendance_id = models.CharField(max_length=10, default=token_urlsafe(4))
 
 
 class Guardians(User):
@@ -51,6 +53,15 @@ class Courses(models.Model):
     course_code = models.CharField(null=True, blank=True, max_length=20)
     date_created = models.DateTimeField(default=datetime.now())
     unique_id = models.UUIDField(default=uuid.uuid4)
+    academic_session = models.CharField(max_length=20, default=datetime.now())
+
+
+    def __str__(self):
+        """
+        A string representation of the created object
+        """
+
+        return self.name
 
 
 class Institutions(models.Model):
@@ -59,15 +70,23 @@ class Institutions(models.Model):
     """
 
     choice = (
-        ("Primary", "primary"),
-        ("Secondary", "secondary"),
-        ("Tetiary", "tetiary")
+        ("Primary", "Primary"),
+        ("Secondary", "Secondary"),
+        ("Tetiary", "Tetiary")
     )
 
-    name = models.CharField(max_length=500)
+    name = models.CharField(max_length=500, unique=True)
     unique_id = models.UUIDField(default=uuid.uuid4)
     date_created = models.DateTimeField(default=datetime.now())
     Type = models.CharField(max_length=100, choices=choice)
+
+
+    def __str__(self):
+        """
+        A string representation of the created object
+        """
+
+        return self.name
 
 
 class Attendance(models.Model):
@@ -78,3 +97,12 @@ class Attendance(models.Model):
     course = models.ForeignKey(to="Courses", on_delete=models.CASCADE)
     date_signed = models.DateTimeField(default=datetime.now())
     unique_id = models.UUIDField(default=uuid.uuid4)
+    academic_session = models.CharField(max_length=20, default=datetime.now())
+
+
+    def __str__(self):
+        """
+        A string representation of the created object
+        """
+
+        return self.course

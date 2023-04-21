@@ -6,6 +6,7 @@ from django.views import View
 from django.contrib.auth.models import AnonymousUser
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Guardians, Instructors, Students, Institutions, Courses, Attendance 
+from uuid import uuid4
 # Create your views here.
 
 # def dashboard(request):
@@ -48,9 +49,11 @@ def GuardianSignUp(request):
 
             guardian = Guardians(
                 username=username,
-                password=password,
                 email=email,
+                unique_id=uuid4()
             )
+
+            guardian.set_password(password)
             guardian.save()
             return HttpResponseRedirect('login')
     return render(request, "GuardiansSignUp.html", {"user": form})
@@ -100,7 +103,9 @@ class dashboard(LoginRequiredMixin, View):
         if isinstance(user, AnonymousUser):
             return HttpResponse("You cannot access this view")
         else:
-            return render(request, "dashboard.html", {"user":user})
+            value = Guardians.objects.get(username=user.username)
+            print(value.unique_id)
+            return render(request, "dashboard.html", {"user":user, "id":str(value.unique_id)})
 
 
 class logoutView(View):

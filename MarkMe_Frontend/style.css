@@ -149,6 +149,13 @@ img {
   color: #ffffff;
   text-decoration: none;
 }
+
+/* dropdown */
+.bigger{
+  border-radius: 20px;
+  background-color: #05384e;
+}
+
 /* Former work */
 /* h1,
 h2,
@@ -188,4 +195,6 @@ p {
   text-shadow: 2px 2px #f2f2f2;
   color: #fff;
 } */
+
+
 

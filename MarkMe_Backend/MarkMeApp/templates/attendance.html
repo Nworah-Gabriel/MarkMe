@@ -55,15 +55,17 @@
     
               </span></td>
           </tr>
+          {% for attendance in attendances %}
           <tr>
-            <td>Mathematics</td>
-            <td>2022/23</td>
+            <td>{{ attendance.course.name }}</td>
+            <td>{{ attendance.date_signed }}</td>
             <td>
               <span class="options">
               <i onclick="viewData(this)" class="fa fa-check-square" aria-hidden="true"></i>
     
               </span></td>
           </tr>
+          {% endfor %}
         </table>
       </div>
       </div>

@@ -3,7 +3,7 @@ A module that handles forms
 """
 from django import forms
 from django.forms import ModelForm
-from .models import Institutions, Courses
+from .models import Institutions, Courses, Attendance
 
 
 class InstructorsForm(forms.Form):
@@ -57,6 +57,18 @@ class InstitutionsForm(ModelForm):
     class Meta:
         model = Institutions
         fields = ["name", "Type"]
+
+
+class AttendanceForm(forms.Form):
+    """
+    A model form class created for registering institutions
+    """
+    
+    
+    course_title = forms.CharField(max_length=50)
+    academic_session = forms.CharField(max_length=20)
+    ID = forms.CharField(max_length=20)
+
 
 class loginForm(forms.Form):
     """

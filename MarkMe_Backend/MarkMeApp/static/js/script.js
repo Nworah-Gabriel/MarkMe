@@ -61,7 +61,8 @@ form.addEventListener("submit", (e) => {
   };
   let markData = (e) => {
     mark.classList.remove('mark')
-    header.innerHTML = `<h1>English</h1>`
+    header.innerHTML = title
+    console.log(header)
   };
   function closeModal() {
     mark.classList.add('mark')

@@ -1,6 +1,6 @@
 from django.shortcuts import render, HttpResponse, HttpResponseRedirect
 from django.contrib.auth import authenticate
-from .form import loginForm, GuardiansForm, StudentsForm, InstructorsForm, InstitutionsForm, CoursesForm
+from .form import loginForm, AttendanceForm, GuardiansForm, StudentsForm, InstructorsForm, InstitutionsForm, CoursesForm
 from django.contrib.auth import login, logout
 from django.views import View
 from django.contrib.auth.models import AnonymousUser
@@ -14,7 +14,19 @@ from uuid import uuid4
 
 
 def attendance(request):
-    return render(request, "attendance.html")
+    user = request.user
+    attendance_list = ""
+    
+    try:
+        get_user = Instructors.objects.get(unique_id=user.unique_id)
+        attendance_list = get_user.attendance.all()
+    except (Instructors.DoesNotExist, AttributeError):
+        try:
+            get_user = Students.objects.get(password=user.password)
+            attendance_list = get_user.attendance.all()
+        except Students.DoesNotExist:
+            return render(request, "dashboard.html")
+    return render(request, "attendance.html", {"attendances":attendance_list})
 
 def createInstitution(request):
     form = InstitutionsForm(request.POST)
@@ -35,7 +47,35 @@ def StudentSignUp(request):
     A functional based view for student signup form
     """
 
-    return render(request, "StudentSignUp.html")
+    form = StudentsForm(request.POST)
+
+    if request.method == 'POST':
+        if form.is_valid():
+            name = form.cleaned_data["name"]
+            institution = form.cleaned_data["institution"]
+            username = form.cleaned_data["username"]
+            password = form.cleaned_data["password"]
+            email = form.cleaned_data["email"]
+
+            try:
+                institute = Institutions.objects.get(name=institution)
+
+                student = Students(
+                    name=name,
+                    username=username,
+                    email=email,
+                    institutions = institute,
+                )
+                student.set_password(password)
+                student.save()
+                return HttpResponseRedirect('login')
+            
+            except Institutions.DoesNotExist:
+                error = "Institution does not exist"
+                return render(request, 'login.html', {'user':form, 'error':error})
+            
+         
+    return render(request, "StudentSignUp.html", {'user':form})
 
 
 def InstructorSignUp(request):
@@ -137,7 +177,10 @@ class dashboard(LoginRequiredMixin, View):
         """A function for getting protected information"""
         
         user = request.user
-
+        course = CoursesForm(request.POST)
+        registeredCourses = ""
+        attendance = AttendanceForm(request.POST)
+        
         if isinstance(user, AnonymousUser):
             return HttpResponse("You cannot access this view")
         else:
@@ -147,38 +190,92 @@ class dashboard(LoginRequiredMixin, View):
                 try:
                     value = Instructors.objects.get(username=user.username)
                     registeredCourses = value.courses.all()
+
                 except Instructors.DoesNotExist:
                     try:
+
                         value = Students.objects.get(username=user.username)
                         registeredCourses = value.courses.all()
-                        return render(
-                            request,
-                            "dashboard.html",
-                            {"user":user,
-                            "id":str(value.email),
-                            "course": course,
-                            "registeredCourses": registeredCourses,
-                            "instructor": "True",
-                            },
-                            )
+
                     except Students.DoesNotExist:
                         return HttpResponseRedirect('login')
 
-            course = CoursesForm(request.POST)
-            if request.method == 'POST':
-                if course.is_valid():
-                    course.save()
+                                        
+        return render(
+            request,
+            "dashboard.html",
+            {"user":user,
+            "id":str(value.email),
+            "registeredCourses": registeredCourses,
+            "course": course,
+            "attendance": attendance,
+            "instructor": "True",
+            },
+        )
 
 
+    def post(self, request, *args, **kwargs):
+        """
+        A method for post request
+        """
+        user = request.user
+        course = CoursesForm(request.POST)
+        registeredCourses = ""
+        attendance = AttendanceForm(request.POST)
+        
+        if request.method == 'POST':
+            if attendance.is_valid():
+                name = attendance.cleaned_data['course_title']
+                academic_session = attendance.cleaned_data['academic_session']
+                ID = attendance.cleaned_data['ID']
+
+                try:
+                    course_name = Courses.objects.get(name=name, academic_session=academic_session)
+                    new_attendance = Attendance(
+                        course=course_name,
+                        academic_session=academic_session,
+                    )
+                    new_attendance.save()
+
+                    student = Students.objects.get(attendance_id=ID)
+                    student.attendance.add(new_attendance.id)
+                    print(name, academic_session)
+                
+                except:
+                    pass
+
+        if request.method == 'POST':
+            if course.is_valid():
+                name = course.cleaned_data['name']
+                acc = course.cleaned_data['academic_session']
+
+                data = Courses(name=name, academic_session=acc)
+                data.save()
+
+                course_add = Instructors.objects.get(username=user.username)
+                course_add.courses.add(data.id)
+                course_add.save()
+
+
+        try:
+            value = Instructors.objects.get(username=user.username)
+            registeredCourses = value.courses.all()
+        
             return render(
-                request,
-                "dashboard.html",
-                {"user":user,
-                 "id":str(value.email),
-                 "course": course},
-                )
+            request,
+            "dashboard.html",
+            {"user":user,
+            "id":str(value.email),
+            "course": course,
+            "attendance": attendance,
+            "registeredCourses": registeredCourses,
+            # "instructor": "True",
+            },
+        )
 
-
+        except Instructors.DoesNotExist:
+            pass
+    
 class logoutView(View):
     """A class that handles the logout view"""
 

@@ -1,0 +1,127 @@
+<!Doctype HTML>
+<html>
+<head>
+	<title>Attendance - Markme</title>
+	<link rel="stylesheet" href="../static/css/attendance.css" type="text/css"/>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+
+
+<body>
+	
+	<div id="mySidenav" class="sidenav">
+	<p class="logo"><span><i class="fa fa-medium icons" style="margin-right: 3px;"></i></span>arkMe</p>
+  <a href="dashboard" class="icon-a"><i class="fa fa-dashboard icons"></i> &nbsp;&nbsp;Dashboard</a>
+  <a href="attendance" class="icon-a"><i class="fa fa-list icons"></i> &nbsp;&nbsp;Attendance</a>
+  <a href="#"class="icon-a"><i class="fa fa-flag icons"></i> &nbsp;&nbsp;Report</a>
+  <a href="#"class="icon-a"><i class="fa fa-cog icons"></i> &nbsp;&nbsp;Settings</a>
+  <a href="logout"class="icon-a"><i class="fa fa-sign-out icons"></i> &nbsp;&nbsp;Logout</a>
+</div>
+<div id="main" class="">
+
+	<div class="head">
+		<div class="col-div-6">
+      <span style="font-size:30px;cursor:pointer; color: white;" class="nav"  >&#9776; Attendance</span>
+      <span style="font-size:30px;cursor:pointer; color: white;" class="nav2"  >&#9776; Attendance</span>
+    </div>
+	
+	<div class="col-div-6">
+	<div class="profile">
+
+		<img src="../static/images/user.png" class="pro-img" />
+		<p>{{ user.username }}<span>{{ user.email }}</span></p>
+	</div>
+</div>
+	<div class="clearfix"></div>
+    <br><br>
+    <div class="col-div-8">
+		<div class="box-8">
+		<div class="content-box">
+	<br/>
+      
+    <div class="table" id="table-scroll">
+        <table id="table">
+          <tr>
+            <th>Date</th>
+            <th>Course</th>
+            <th>View</th>
+          </tr>
+          {% for attendance in attendances %}
+          <tr>
+            <td>{{ attendance.course.name }}</td>
+            <td>{{ attendance.date_signed }}</td>
+            <td>
+              <span class="options">
+              <i onclick="viewData(this)" class="fa fa-check-square" aria-hidden="true"></i>
+              </span></td>
+          </tr>
+          {% endfor %}
+        </table>
+      </div>
+      </div>
+    </div>
+</div>
+		</div>
+	</div>
+
+    <div id="attendance" class="hide">
+        <div class="attendance">
+          <h1>Data Recorded</h1>
+          <p onclick="closeRecord()">X</p>
+        </div>
+
+    
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+
+  $(".nav").click(function(){
+    $("#mySidenav").css('width','70px');
+    $("#main").css('margin-left','70px');
+    $(".logo").css('visibility', 'hidden');
+    $(".logo span").css('visibility', 'visible');
+     $(".logo span").css('margin-left', '-10px');
+     $(".icon-a").css('visibility', 'hidden');
+     $(".icons").css('visibility', 'visible');
+     $(".icons").css('margin-left', '-8px');
+      $(".nav").css('display','none');
+      $(".nav2").css('display','block');
+  });
+
+$(".nav2").click(function(){
+    $("#mySidenav").css('width','300px');
+    $("#main").css('margin-left','300px');
+    $(".logo").css('visibility', 'visible');
+     $(".icon-a").css('visibility', 'visible');
+     $(".icons").css('visibility', 'visible');
+     $(".nav").css('display','block');
+      $(".nav2").css('display','none');
+ });
+
+    var date = document.getElementById('date')
+    var today = new Date()
+    var year = today.getFullYear();
+    var mes = today.getMonth()+1;
+    var dia = today.getDate();
+    var fecha =dia+"-"+mes+"-"+year;
+    console.log(fecha)
+    date.innerHTML = fecha
+    let viewData = (e) => {
+        document.getElementById('attendance').classList.remove('hide')
+        document.getElementById('mySidenav').classList.add('hide')
+        document.getElementById('main').classList.add('hide')
+    }
+    let closeRecord = (e) => {
+        document.getElementById('attendance').classList.add('hide')
+        document.getElementById('main').classList.remove('hide')
+        document.getElementById('mySidenav').classList.remove('hide')
+    }
+    //table head takes subject
+    //table when viewed contains table of students name and id
+    //each new day any info coming in should be on a new div
+    //
+</script>
+<script src="../static/js/script.js"></script>
+</body>
+
+
+</html>

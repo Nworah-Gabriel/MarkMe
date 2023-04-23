@@ -9,10 +9,16 @@ var session = document.getElementById('session')
 var mark = document.getElementById('mark')
 var header = document.getElementById('header')
 var close = document.getElementById('close')
+var signup = document.querySelector(".signup")
 button.onclick = function openModal(){
     modal.classList.toggle('modal')
     console.log('clicked')
 }
+
+
+signup.addEventListener("click", ()=>{
+    alert("signukkkkkp")
+  })
 
 form.addEventListener("submit", (e) => {
     e.preventDefault();
@@ -70,3 +76,4 @@ form.addEventListener("submit", (e) => {
   let deleteData = (e) => {
     e.parentElement.parentElement.parentElement.remove();
   };
+

@@ -4,59 +4,84 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>MarkMe - Attendance Management System</title>
-    <link rel="stylesheet" href="style.css" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css"/>
   </head>
   <body>
-    <header>
-      <nav>
-        <ul>
-          <li><a href="#">Home</a></li>
-          <li><a href="#">Features</a></li>
-          <li><a href="#">Pricing</a></li>
-          <li><a href="login.html">Login</a></li>
-          <li><a href="signup.html">Sign Up</a></li>
-        </ul>
-      </nav>
-      <h1>MarkMe</h1>
-      <p>Attendance Management System</p>
-      <a href="#">Get Started</a>
-    </header>
+    <section>
+      <header class="header">
+        <nav class="navbar">
+          <a href="index.html" class="nav-logo">MarkMe</a>
+          <div class="nav-links">
+            <ul>
+              <li><a href="#">Home</a></li>
+              <li><a href="#">Features</a></li>
+              <li><a href="#">Pricing</a></li>
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  Signup
+                </a>
+                <ul class="dropdown-menu dropdown-menu-dark bigger" aria-labelledby="navbarDarkDropdownMenuLink">
+                  <li><a class="dropdown-item" href="/MarkMe_Backend/MarkMeApp/templates/InstructorSignUp.html">As Lecturer</a></li>
+                  <li><a class="dropdown-item" href="/MarkMe_Backend/MarkMeApp/templates/StudentSignUp.html">As Student</a></li>
+                  <li><a class="dropdown-item" href="/MarkMe_Backend/MarkMeApp/templates/GuardiansSignUp.html">As Parent</a></li>
+                </ul>
+              </li>
+              <li><a href="login.html">Login
+              </a></li>
+            </ul>
+          </div>
+        </nav>
+        <div class="text-box">
+          <h1>MarkMe</h1>
+          <p>Attendance Management System <br> Lorem ipsum dolor, sit amet consectetur adipisicing elit. Asperiores odio, autem molestias vel delectus, <br> voluptatem aliquid debitis magni sapiente impedit adipisci maiores! Vero, ipsa. Eos similique reprehenderit delectus autem explicabo!2</p>
+          <a href="#">Get Started</a>
+        </div>
+      </header>
+    </section>
 
     <main>
-      <section>
-        <h2>Track Attendance with Ease</h2>
-        <p>
-          MarkMe helps you track attendance for your students, employees or
-          attendees with just a few clicks.
-        </p>
-        <a href="#">Learn More</a>
-      </section>
-      <section>
-        <h2>Flexible Scheduling</h2>
-        <p>
-          Create flexible schedules for classes, meetings or events and track
-          attendance accordingly.
-        </p>
-        <a href="#">Learn More</a>
-      </section>
-      <section>
-        <h2>Real-time Reports</h2>
-        <p>
-          Generate real-time reports on attendance data for individual students,
-          classes or events.
-        </p>
-        <a href="#">Learn More</a>
+      <section class="main-section">
+        <div class="main-content">
+          <img src="/MarkMe_Frontend/images/african-american-business-woman-working-computer-bar.jpg" alt="">
+          <h2>Track Attendance with Ease</h2>
+          <p>
+            MarkMe helps you track attendance for your students, employees or
+            attendees with just a few clicks.
+          </p>
+          <a href="#" class="learnmore">Learn More</a>
+        </div>
+        <div class="main-content">
+          <img src="/MarkMe_Frontend/images/hesitant-brunette-woman-writes-article-notebook-notes-plans-with-unaware-expression-wears-transparent-glasses-beige-turtleneck.jpg" alt="">
+          <h2>Flexible Scheduling</h2>
+          <p>
+            Create flexible schedules for classes, meetings or events and track
+            attendance accordingly.
+          </p>
+          <a href="#" class="learnmore">Learn More</a>
+        </div>
+        <div class="main-content">
+          <img src="/MarkMe_Frontend/images/oh-no-now-stressed-dark-skinned-man-has-much-work-office-asked-by-many-people-one-time-who-remind-about-preparing-business-project-hold-alarm-clock.jpg" alt="">
+          <h2>Real-time Reports</h2>
+          <p>
+            Generate real-time reports on attendance data for individual students,
+            classes or events.
+          </p>
+          <a href="#" class="learnmore">Learn More</a>
+        </div>
       </section>
     </main>
 
-    <footer>
-      <p>&copy; 2023 MarkMe. All rights reserved.</p>
-      <ul>
+    <footer class="rights">
+      <ul class="footer-links">
         <li><a href="#">Facebook</a></li>
         <li><a href="#">Twitter</a></li>
         <li><a href="#">LinkedIn</a></li>
         <li><a href="#">Instagram</a></li>
       </ul>
+      <p>&copy; 2023 MarkMe. All rights reserved.</p>
     </footer>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <script src="Dashboard/script.js"></script>
   </body>
 </html>

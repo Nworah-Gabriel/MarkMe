@@ -11,11 +11,11 @@
 	
 	<div id="mySidenav" class="sidenav">
 	<p class="logo"><span><i class="fa fa-medium icons" style="margin-right: 3px;"></i></span>arkMe</p>
-  <a href="dashboard.html" class="icon-a"><i class="fa fa-dashboard icons"></i> &nbsp;&nbsp;Dashboard</a>
+  <a href="dashboard" class="icon-a"><i class="fa fa-dashboard icons"></i> &nbsp;&nbsp;Dashboard</a>
   <a href="attendance" class="icon-a"><i class="fa fa-list icons"></i> &nbsp;&nbsp;Attendance</a>
   <a href="#"class="icon-a"><i class="fa fa-flag icons"></i> &nbsp;&nbsp;Report</a>
   <a href="#"class="icon-a"><i class="fa fa-cog icons"></i> &nbsp;&nbsp;Settings</a>
-  <a href="#"class="icon-a"><i class="fa fa-sign-out icons"></i> &nbsp;&nbsp;Logout</a>
+  <a href="logout"class="icon-a"><i class="fa fa-sign-out icons"></i> &nbsp;&nbsp;Logout</a>
 </div>
 <div id="main" class="">
 
@@ -29,7 +29,7 @@
 	<div class="profile">
 
 		<img src="../static/images/user.png" class="pro-img" />
-		<p>Leomanuel Ola<span>Sofware Engineer</span></p>
+		<p>{{ user.username }}<span>{{ user.email }}</span></p>
 	</div>
 </div>
 	<div class="clearfix"></div>
@@ -42,28 +42,18 @@
     <div class="table" id="table-scroll">
         <table id="table">
           <tr>
-            <th>Date</th>
             <th>Course</th>
-            <th>View</th>
-          </tr>
-          <tr>
-            <td id="date"></td>
-            <td>English</td>
-            <td>
-              <span class="options">
-              <i onclick="viewData(this)" class="fa fa-check-square" aria-hidden="true"></i>
-    
-              </span></td>
+            <th>Date</th>
+            <!-- <th>View</th> -->
           </tr>
           {% for attendance in attendances %}
           <tr>
             <td>{{ attendance.course.name }}</td>
             <td>{{ attendance.date_signed }}</td>
-            <td>
+            <!-- <td>
               <span class="options">
               <i onclick="viewData(this)" class="fa fa-check-square" aria-hidden="true"></i>
-    
-              </span></td>
+              </span></td> -->
           </tr>
           {% endfor %}
         </table>

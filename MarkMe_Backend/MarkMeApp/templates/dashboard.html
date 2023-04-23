@@ -12,7 +12,7 @@
 	<div id="mySidenav" class="sidenav">
   <p class="logo"><span><i class="fa fa-medium icons" style="margin-right: 18px;"></i></span>arkMe</p>
   <a href="dashboard" class="icon-a"><i class="fa fa-dashboard icons"></i> &nbsp;&nbsp;Dashboard</a>
-  <a href="attendance.html"class="icon-a"><i class="fa fa-list icons"></i> &nbsp;&nbsp;Attendance</a>
+  <a href="attendance"class="icon-a"><i class="fa fa-list icons"></i> &nbsp;&nbsp;Attendance</a>
   <a href="#"class="icon-a"><i class="fa fa-flag icons"></i> &nbsp;&nbsp;Report</a>
   <a href="createInstitution" class="icon-a"><i class="fa fa-plus icons"></i> &nbsp;&nbsp;Create Institute</a>
   <a href="logout"class="icon-a"><i class="fa fa-sign-out icons"></i> &nbsp;&nbsp;Logout</a>
@@ -46,7 +46,7 @@
     
   
   <div class="table" id="table-scroll">
-    <table id="form">
+    <table id="form" style="width: 100%;">
       <tr>
         <th>Course Title</th>
         <th>Session</th>
@@ -59,9 +59,11 @@
         <td>{{ course.academic_session }}</td>
         <td>
           <span class="options">
-            <i onclick="deleteData(this)" class="fa fa-trash-o" aria-hidden="true"></i>
-          <i onclick="markData(this)" class="fa fa-check-square" aria-hidden="true"></i>
 
+          {% if instructor == True %}
+          <a href="delete/'{{ course.course_id }}'/{{ course.academic_session }}" class="fa fa-trash-o" aria-hidden="true">test</a>
+          <i onclick="markData(this)" class="fa fa-check-square" aria-hidden="true"></i>
+          {% endif %}
           </span></td>
       </tr>
       {% endfor %}
@@ -80,7 +82,7 @@
           {% load widget_tweaks %}
 
           {% render_field course.name id="title" type="text" placeholder="  Course Title" %}
-          {% render_field course.academic_session id="session" type="text" placeholder=" Academic Session" %}
+          {% render_field course.academic_session id="session" type="text" placeholder=" Academic Year" %}
           <!-- <input type="text" name="title" id="title" placeholder="     Course Title" required> -->
           <!-- <input type="text" name="session" id="session" placeholder="     Academic Session" required> -->
           <!-- <button onclick="markAttendance()">Submit</button> -->
@@ -94,23 +96,28 @@
 <div class="mark slide" id="mark">
     <div id="header"></div>
     <p onclick="closeModal()">X</p>
-<<<<<<< HEAD
     <form method="POST">
       {% csrf_token %}
       {% load widget_tweaks %}
 
       {% render_field attendance.course_title id="title" type="text" placeholder="  Course Title" %}
       {% render_field attendance.academic_session id="session" type="text" placeholder=" Academic Session" %}
-      {% render_field attendance.ID id="session" type="text" placeholder=" Academic Session" %}
-      <input type="submit" value="Submit">
+      {% render_field attendance.ID id="session" type="text" placeholder="Unique ID" %}
+      <!-- <input type="submit" value="Submit"> -->
+      <input id="close" type="submit" value="Mark" style="
+        width: 20%;
+        margin-left: 40%;
+        color: white;
+        padding: 10px;
+        font-size: 1.2rem;
+        border: none;
+        background-color: #05384e;
+        margin-top: 35px;
+        border-radius: 10px;">
     </form>
     <!-- <input type="text" id="input" placeholder="     Student ID">
     <input type="text" id="input"> -->
-=======
-    <input type="text" id="input" placeholder="Student ID">
-    <input type="text" id="input" placeholder="Student Name">
->>>>>>> 98212b719c1bc62da55c5488fd4c02f0af1e6f16
-    <button onclick="closeModal()" id="close">Mark</button>
+    <!-- <button onclick="closeModal()" id="close">Mark</button> -->
 	<div class="clearfix"></div>
 </div>
 

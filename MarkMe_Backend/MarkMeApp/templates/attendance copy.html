@@ -1,8 +1,8 @@
 <!Doctype HTML>
 <html>
 <head>
-	<title>Attendance - Markme</title>
-	<link rel="stylesheet" href="../static/css/attendance.css" type="text/css"/>
+	<title></title>
+	<link rel="stylesheet" href="css/attendance.css" type="text/css"/>
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 
@@ -10,12 +10,12 @@
 <body>
 	
 	<div id="mySidenav" class="sidenav">
-	<p class="logo"><span><i class="fa fa-medium icons" style="margin-right: 3px;"></i></span>arkMe</p>
-  <a href="dashboard" class="icon-a"><i class="fa fa-dashboard icons"></i> &nbsp;&nbsp;Dashboard</a>
-  <a href="attendance" class="icon-a"><i class="fa fa-list icons"></i> &nbsp;&nbsp;Attendance</a>
+	<p class="logo"><span><i class="fa fa-medium icons"></i></span> arkMe</p>
+  <a href="index.html" class="icon-a"><i class="fa fa-dashboard icons"></i> &nbsp;&nbsp;Dashboard</a>
+  <a href="attendance.html"class="icon-a"><i class="fa fa-list icons"></i> &nbsp;&nbsp;Attendance</a>
   <a href="#"class="icon-a"><i class="fa fa-flag icons"></i> &nbsp;&nbsp;Report</a>
   <a href="#"class="icon-a"><i class="fa fa-cog icons"></i> &nbsp;&nbsp;Settings</a>
-  <a href="logout"class="icon-a"><i class="fa fa-sign-out icons"></i> &nbsp;&nbsp;Logout</a>
+  <a href="#"class="icon-a"><i class="fa fa-sign-out icons"></i> &nbsp;&nbsp;Logout</a>
 </div>
 <div id="main" class="">
 
@@ -28,8 +28,8 @@
 	<div class="col-div-6">
 	<div class="profile">
 
-		<img src="../static/images/user.png" class="pro-img" />
-		<p>{{ user.username }}<span>{{ user.email }}</span></p>
+		<img src="images/user.png" class="pro-img" />
+		<p>Leomanuel Ola<span>Sofware Engineer</span></p>
 	</div>
 </div>
 	<div class="clearfix"></div>
@@ -46,16 +46,24 @@
             <th>Course</th>
             <th>View</th>
           </tr>
-          {% for attendance in attendances %}
           <tr>
-            <td>{{ attendance.course.name }}</td>
-            <td>{{ attendance.date_signed }}</td>
+            <td id="date"></td>
+            <td>English</td>
             <td>
               <span class="options">
               <i onclick="viewData(this)" class="fa fa-check-square" aria-hidden="true"></i>
+    
               </span></td>
           </tr>
-          {% endfor %}
+          <tr>
+            <td>Mathematics</td>
+            <td>2022/23</td>
+            <td>
+              <span class="options">
+              <i onclick="viewData(this)" class="fa fa-check-square" aria-hidden="true"></i>
+    
+              </span></td>
+          </tr>
         </table>
       </div>
       </div>
@@ -120,7 +128,7 @@ $(".nav2").click(function(){
     //each new day any info coming in should be on a new div
     //
 </script>
-<script src="../static/js/script.js"></script>
+<script src="script.js"></script>
 </body>
 
 

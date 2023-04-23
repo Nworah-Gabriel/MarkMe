@@ -6,7 +6,7 @@ from django.views import View
 from django.contrib.auth.models import AnonymousUser
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Guardians, Instructors, Students, Institutions, Courses, Attendance 
-from uuid import uuid4
+from uuid import uuid4, UUID
 # Create your views here.
 
 # def dashboard(request):
@@ -18,7 +18,7 @@ def attendance(request):
     attendance_list = ""
     
     try:
-        get_user = Instructors.objects.get(unique_id=user.unique_id)
+        get_user = Instructors.objects.get(password=user.password)
         attendance_list = get_user.attendance.all()
     except (Instructors.DoesNotExist, AttributeError):
         try:
@@ -180,6 +180,8 @@ class dashboard(LoginRequiredMixin, View):
         course = CoursesForm(request.POST)
         registeredCourses = ""
         attendance = AttendanceForm(request.POST)
+        student = ""
+        instructor = ""
         
         if isinstance(user, AnonymousUser):
             return HttpResponse("You cannot access this view")
@@ -190,17 +192,19 @@ class dashboard(LoginRequiredMixin, View):
                 try:
                     value = Instructors.objects.get(username=user.username)
                     registeredCourses = value.courses.all()
+                    instructor = True
 
+                
                 except Instructors.DoesNotExist:
                     try:
 
                         value = Students.objects.get(username=user.username)
                         registeredCourses = value.courses.all()
+                        student = True
 
                     except Students.DoesNotExist:
                         return HttpResponseRedirect('login')
 
-                                        
         return render(
             request,
             "dashboard.html",
@@ -209,9 +213,11 @@ class dashboard(LoginRequiredMixin, View):
             "registeredCourses": registeredCourses,
             "course": course,
             "attendance": attendance,
-            "instructor": "True",
+            "instructor": instructor,
+            "student": student,
             },
-        )
+        )                                 
+       
 
 
     def post(self, request, *args, **kwargs):
@@ -222,7 +228,9 @@ class dashboard(LoginRequiredMixin, View):
         course = CoursesForm(request.POST)
         registeredCourses = ""
         attendance = AttendanceForm(request.POST)
-        
+        instructor = ""
+        student = ""
+
         if request.method == 'POST':
             if attendance.is_valid():
                 name = attendance.cleaned_data['course_title']
@@ -239,7 +247,6 @@ class dashboard(LoginRequiredMixin, View):
 
                     student = Students.objects.get(attendance_id=ID)
                     student.attendance.add(new_attendance.id)
-                    print(name, academic_session)
                 
                 except:
                     pass
@@ -252,14 +259,24 @@ class dashboard(LoginRequiredMixin, View):
                 data = Courses(name=name, academic_session=acc)
                 data.save()
 
-                course_add = Instructors.objects.get(username=user.username)
-                course_add.courses.add(data.id)
-                course_add.save()
+                try:
+                    course_add = Instructors.objects.get(username=user.username)
+                    course_add.courses.add(data.id)
+                    course_add.save()
+                except:
+                    try:
+                        course_add = Students.objects.get(username=user.username)
+                        course_add.courses.add(data.id)
+                        course_add.save()
+                    except:
+                        return HttpResponseRedirect("attendance")
+
 
 
         try:
             value = Instructors.objects.get(username=user.username)
             registeredCourses = value.courses.all()
+            instructor = True
         
             return render(
             request,
@@ -269,12 +286,29 @@ class dashboard(LoginRequiredMixin, View):
             "course": course,
             "attendance": attendance,
             "registeredCourses": registeredCourses,
-            # "instructor": "True",
+            "instructor": instructor,
             },
         )
 
         except Instructors.DoesNotExist:
-            pass
+            try:
+                value = Students.objects.get(username=user.username)
+                registeredCourses = value.courses.all()
+                student = True
+
+                return render(
+                request,
+                "dashboard.html",
+                {"user":user,
+                "id":str(value.email),
+                "course": course,
+                "attendance": attendance,
+                "registeredCourses": registeredCourses,
+                "student": student,
+                },
+            )
+            except:
+                pass
     
 class logoutView(View):
     """A class that handles the logout view"""
@@ -287,3 +321,21 @@ class logoutView(View):
         else:
             logout(request)
             return HttpResponseRedirect("login")
+        
+
+def delete(request, course_id, academic_session):
+    """
+    A functional based view used for deleting registered courses
+    """
+
+    
+    try:
+        getit = course_id[1:-1]
+        print(getit, academic_session)
+        course = Courses.objects.get(course_id=getit , academic_session=academic_session)
+        course.delete()
+        course.save()
+        logout(request)
+    except:
+        pass
+    return HttpResponseRedirect("dashboard")

@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.urls import path
-from .views import dashboard, attendance, StudentSignUp, InstructorSignUp, GuardianSignUp, loginView, logoutView, createInstitution
+from .views import dashboard, delete, attendance, StudentSignUp, InstructorSignUp, GuardianSignUp, loginView, logoutView, createInstitution
 
 urlpatterns = [
     path('dashboard', dashboard.as_view(), name="dashboard"),
@@ -11,4 +11,6 @@ urlpatterns = [
     path('login', loginView.as_view(), name="login"),
     path('logout', logoutView.as_view(), name="logout"),
     path('createInstitution', createInstitution),
+    path('delete/<str:course_id>/<str:academic_session>', delete),
+    
 ]

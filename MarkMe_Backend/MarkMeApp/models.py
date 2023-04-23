@@ -52,8 +52,8 @@ class Courses(models.Model):
     name = models.CharField(max_length=200)
     course_code = models.CharField(null=True, blank=True, max_length=20)
     date_created = models.DateTimeField(default=datetime.now())
-    unique_id = models.UUIDField(default=uuid.uuid4)
-    academic_session = models.CharField(max_length=20, default=datetime.now())
+    course_id = models.CharField(max_length=50 ,default=token_urlsafe(8))
+    academic_session = models.CharField(max_length=4)
 
 
     def __str__(self):

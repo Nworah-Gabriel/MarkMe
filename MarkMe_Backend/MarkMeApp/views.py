@@ -339,3 +339,10 @@ def delete(request, course_id, academic_session):
     except:
         pass
     return HttpResponseRedirect("dashboard")
+
+def home(request):
+    """
+    A functional based view for the landing page
+    """
+
+    return render(request, "landing_page.html")

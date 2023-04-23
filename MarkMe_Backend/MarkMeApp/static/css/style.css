@@ -193,11 +193,12 @@ td, th {
   color: #ddd;
   border-bottom: 1px solid #81818140;
 }
-i{
+i a {
   padding: 5px;
   height: 15px;
   width: 15px;
 }
+
 .addCourse {
   color: #fff5de;
   background-color: #a87912;

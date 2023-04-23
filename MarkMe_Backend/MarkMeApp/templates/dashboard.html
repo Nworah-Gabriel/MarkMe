@@ -50,7 +50,9 @@
       <tr>
         <th>Course Title</th>
         <th>Session</th>
+        {{ if instructor == True }}
         <th>Action</th>
+        {{ endif }}
       </tr>
 
       {% for course in registeredCourses %}  
@@ -61,7 +63,7 @@
           <span class="options">
 
           {% if instructor == True %}
-          <a href="delete/'{{ course.course_id }}'/{{ course.academic_session }}" class="fa fa-trash-o" aria-hidden="true">test</a>
+          <a style="color: #ddd; text-decoration: none; padding-right: 10px;" href="delete/'{{ course.course_id }}'/{{ course.academic_session }}" class="fa fa-trash-o" aria-hidden="true"></a>
           <i onclick="markData(this)" class="fa fa-check-square" aria-hidden="true"></i>
           {% endif %}
           </span></td>

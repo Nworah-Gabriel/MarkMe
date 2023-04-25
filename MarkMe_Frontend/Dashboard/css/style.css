@@ -80,8 +80,10 @@ body {
   padding: 16px;
   margin-left: 300px;
 }
+/* made changes here ..................................*/
 .head{
 	padding:20px;
+  height: 70px;
 }
 .col-div-6{
 	width: 50%;
@@ -149,7 +151,7 @@ body {
 .col-div-4{
 	width: 30%;
 	float: left;
-  padding: 0;
+  padding: 0px;
 }
 .content-box{
 	padding: 20px;
@@ -159,8 +161,8 @@ body {
 }
 .content-box p{
 	margin: 0px;
-    font-size: 20px;
-    color: #ffefee;
+  font-size: 20px;
+  color: #ffefee;
 }
 .content-box p span{
 	float: right;
@@ -171,22 +173,35 @@ body {
 .box-8, .box-4{
 	width: 95%;
 	background-color: #05384e;
-	height: 330px;
+	height: 400px;
 	border-radius: 30px;
 }
 .nav2{
 	display: none;
 }
-
-.box-8{
+/* i commented this one out ....................................*/
+/* .box-8{
 	margin-left: 10px;
-}
-.table{
+} */
+.table {
   height: 200px;
 }
 #table{
   width: 90%;
 }
+/* ID styling   ........................................... */
+.id {
+  color: #ffffff;
+  border-radius: 20px;
+  font-size: 2rem; font-weight: 400;
+  display: flex;
+  background-color: #a87912;
+  width: 150px;
+  justify-content: center;
+  padding-bottom: 0.5rem;
+  margin: 5px 0px -15px 0px;
+}
+
 td, th {
   text-align: left;
   padding:15px;

@@ -66,7 +66,7 @@ class AttendanceForm(forms.Form):
     
     
     course_title = forms.CharField(max_length=50)
-    academic_session = forms.CharField(max_length=20)
+    academic_session = forms.CharField(max_length=4)
     ID = forms.CharField(max_length=20)
 
 

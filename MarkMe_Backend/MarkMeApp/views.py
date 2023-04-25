@@ -264,24 +264,38 @@ class dashboard(LoginRequiredMixin, View):
                     pass
 
         if request.method == 'POST':
+            
+            get_course = ""
             if course.is_valid():
                 name = course.cleaned_data['name']
                 acc = course.cleaned_data['academic_session']
 
-                data = Courses(name=name, academic_session=acc)
-                data.save()
+                try:
+                    get_course = Courses.objects.get(name=name, academic_session=acc)
+                except Courses.DoesNotExist:
+                    data = Courses(name=name, academic_session=acc)
+                    data.save()
 
                 try:
                     course_add = Instructors.objects.get(username=user.username)
-                    course_add.courses.add(data.id)
-                    course_add.save()
+                    if get_course:
+                        course_add.courses.add(get_course.id)
+                        course_add.save()
+                    else:
+                        course_add.courses.add(data.id)
+                        course_add.save()
                 except:
                     try:
                         course_add = Students.objects.get(username=user.username)
-                        course_add.courses.add(data.id)
-                        course_add.save()
+
+                        if get_course:
+                            course_add.courses.add(get_course.id)
+                            course_add.save()
+                        else:
+                            course_add.courses.add(data.id)
+                            course_add.save()
                     except:
-                        return HttpResponseRedirect("attendance")
+                        return HttpResponseRedirect("dashboard")
 
 
 

@@ -50,9 +50,9 @@
       <tr>
         <th>Course Title</th>
         <th>Session</th>
-        {{ if instructor == True }}
+        {% if instructor == True %}
         <th>Action</th>
-        {{ endif }}
+        {% endif %}
       </tr>
 
       {% for course in registeredCourses %}  

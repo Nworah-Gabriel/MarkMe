@@ -11,7 +11,7 @@ body {
 .header {
   min-height: 85vh;
   width: 100%;
-  background-image: linear-gradient(rgba(4, 9, 30, 0.7),rgba(5, 56, 78, 1)), url("/MarkMe_Frontend/images/classroom.jpg");
+  background-image: linear-gradient(rgba(4, 9, 30, 0.7),rgba(5, 56, 78, 1)), url("../images/classroom.jpg");
   background-position: center;
   background-size: cover;
   position: relative;

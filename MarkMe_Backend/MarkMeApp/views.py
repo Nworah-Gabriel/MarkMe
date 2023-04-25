@@ -16,17 +16,23 @@ from uuid import uuid4, UUID
 def attendance(request):
     user = request.user
     attendance_list = ""
-    
+    student = ""
+    instructor = ""
+
     try:
         get_user = Instructors.objects.get(password=user.password)
         attendance_list = get_user.attendance.all()
+        student = True
+
     except (Instructors.DoesNotExist, AttributeError):
         try:
             get_user = Students.objects.get(password=user.password)
             attendance_list = get_user.attendance.all()
+            instructor = True
+
         except Students.DoesNotExist:
             return render(request, "dashboard.html")
-    return render(request, "attendance.html", {"attendances":attendance_list})
+    return render(request, "attendance.html", {"attendances":attendance_list, "student":student, "instructor":instructor})
 
 def createInstitution(request):
     form = InstitutionsForm(request.POST)
@@ -238,15 +244,21 @@ class dashboard(LoginRequiredMixin, View):
                 ID = attendance.cleaned_data['ID']
 
                 try:
+                    student = Students.objects.get(attendance_id=ID)
+                    instructor_query = Instructors.objects.get(username=user, password=user.password)
                     course_name = Courses.objects.get(name=name, academic_session=academic_session)
                     new_attendance = Attendance(
                         course=course_name,
                         academic_session=academic_session,
+                        instructor=student.username,
+                        student=user,
                     )
                     new_attendance.save()
 
-                    student = Students.objects.get(attendance_id=ID)
                     student.attendance.add(new_attendance.id)
+                    instructor_query.attendance.add(new_attendance.id)
+                    instructor_query.save()
+                    student.save()
                 
                 except:
                     pass
@@ -335,10 +347,10 @@ def delete(request, course_id, academic_session):
         course = Courses.objects.get(course_id=getit , academic_session=academic_session)
         course.delete()
         course.save()
-        logout(request)
+        return render(request, "deleteSuccess.html")
     except:
         pass
-    return HttpResponseRedirect("dashboard")
+    # return HttpResponseRedirect("dashboard")
 
 def home(request):
     """

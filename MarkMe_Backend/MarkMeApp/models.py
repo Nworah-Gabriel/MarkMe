@@ -98,6 +98,8 @@ class Attendance(models.Model):
     date_signed = models.DateTimeField(default=datetime.now())
     unique_id = models.UUIDField(default=uuid.uuid4)
     academic_session = models.CharField(max_length=20)
+    instructor = models.CharField(max_length=200, default="Anonymous")
+    student = models.CharField(max_length=200, default="Anonymous")
 
 
     def __str__(self):

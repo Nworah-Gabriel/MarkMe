@@ -14,7 +14,7 @@
   <a href="dashboard" class="icon-a"><i class="fa fa-dashboard icons"></i> &nbsp;&nbsp;Dashboard</a>
   <a href="attendance" class="icon-a"><i class="fa fa-list icons"></i> &nbsp;&nbsp;Attendance</a>
   <a href="#"class="icon-a"><i class="fa fa-flag icons"></i> &nbsp;&nbsp;Report</a>
-  <a href="#"class="icon-a"><i class="fa fa-cog icons"></i> &nbsp;&nbsp;Settings</a>
+  <a href="createInstitution" class="icon-a"><i class="fa fa-plus icons"></i> &nbsp;&nbsp;Create Institute</a>
   <a href="logout"class="icon-a"><i class="fa fa-sign-out icons"></i> &nbsp;&nbsp;Logout</a>
 </div>
 <div id="main" class="">
@@ -42,12 +42,24 @@
     <div class="table" id="table-scroll">
         <table id="table">
           <tr>
+            {% if student == True %}
+            <th>Student</th>
+            {% endif %}
+            {% if instructor == True %}
+            <th>Instructor</th>
+            {% endif %}
             <th>Course</th>
-            <th>Date</th>
+            <th>Date Signed</th>
             <!-- <th>View</th> -->
           </tr>
           {% for attendance in attendances %}
           <tr>
+            {% if instructor == True %}
+            <td>{{ attendance.student }}</td>
+            {% endif %}
+            {% if student == True %}
+            <td>{{ attendance.instructor }}</td>
+            {% endif %}
             <td>{{ attendance.course.name }}</td>
             <td>{{ attendance.date_signed }}</td>
             <!-- <td>

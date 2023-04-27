@@ -1,5 +1,6 @@
 #table-scroll::-webkit-scrollbar {
   width: 5px;
+  height: 500px;
 }
 
 /* Track */
@@ -178,14 +179,14 @@ body {
 	display: none;
 }
 
-.box-8{
-	margin-left: 10px;
+.box-8{	margin-left: 10px;
 }
 .table{
-  height: 200px;
+  height: 500px;
 }
 #table{
   width: 90%;
+  height: 500px;
 }
 td, th {
   text-align: left;
@@ -294,3 +295,16 @@ form button{
   cursor: pointer;
 }
 
+/* ID styling   ........................................... */
+.id {
+  color: #ffffff;
+  border-radius: 10px;
+  font-size: 1.5rem; font-weight: 400;
+  display: flex;
+  background-color: #a87912;
+  width: 200px;
+  justify-content: center;
+  padding-bottom: 0.5rem;
+  margin: 5px 0px -15px 0px;
+  margin-top: 10%;
+}

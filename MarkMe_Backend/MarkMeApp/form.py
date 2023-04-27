@@ -77,3 +77,13 @@ class loginForm(forms.Form):
 
     username = forms.CharField(max_length=50)
     password = forms.CharField(max_length=30)
+
+
+class attendanceProgressForm(forms.Form):
+    """
+    A form class created for marking attendance progress
+    """
+
+    unique_id = forms.CharField(max_length=30)
+    academic_session = forms.CharField(max_length=4)
+    course_name = forms.CharField(max_length=200)

@@ -51,9 +51,22 @@
         text-decoration: none;
         font-size: 20px;
       }
+
+      @media((min-width: 0px) and (max-width:500px))
+      {
+        .card{
+          height: 65%;    
+        }
+      }
+      @media((min-width:900px) and (max-width:1200px))
+      {
+        .card{
+          height: 25%;    
+        }
+      }
     </style>
-    <body>
-      <div class="card" style="width: 50%; height: 60%;">
+    <body class="body" style="align-items: center; display: flex; flex-direction: row; justify-content: center;">
+      <div class="card" style="width: 30%;">
       <div style="border-radius:200px; height: 200px; width:200px; background: #F8FAF5; margin:0 auto;">
         <i class="checkmark">✓</i>
       </div>

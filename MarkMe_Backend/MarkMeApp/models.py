@@ -95,6 +95,7 @@ class Attendance(models.Model):
     """
 
     course = models.ForeignKey(to="Courses", on_delete=models.CASCADE)
+    course_name = models.CharField(max_length=200, default="Course name")
     date_signed = models.DateTimeField(default=datetime.now())
     unique_id = models.UUIDField(default=uuid.uuid4)
     academic_session = models.CharField(max_length=20)

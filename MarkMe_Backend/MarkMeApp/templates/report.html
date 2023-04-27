@@ -1,8 +1,9 @@
 <!Doctype HTML>
 <html>
 <head>
-	<title>Attendance - Markme</title>
-	<link rel="stylesheet" href="../static/css/attendance.css" type="text/css"/>
+	<title></title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+	<link rel="stylesheet" href="../static/css/report.css" type="text/css"/>
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 
@@ -10,10 +11,10 @@
 <body>
 	
 	<div id="mySidenav" class="sidenav">
-	<p class="logo"><span><i class="fa fa-medium icons" style="margin-right: 3px;"></i></span>arkMe</p>
+	<p class="logo"><span><i class="fa fa-medium icons"></i></span>arkMe</p>
   <a href="dashboard" class="icon-a"><i class="fa fa-dashboard icons"></i> &nbsp;&nbsp;Dashboard</a>
-  <a href="attendance" class="icon-a"><i class="fa fa-list icons"></i> &nbsp;&nbsp;Attendance</a>
-  <a href="report"class="icon-a"><i class="fa fa-flag icons"></i> &nbsp;&nbsp;Report</a>
+  <a href="attendance"class="icon-a"><i class="fa fa-list icons"></i> &nbsp;&nbsp;Attendance</a>
+  <a href="#"class="report"><i class="fa fa-flag icons"></i> &nbsp;&nbsp;Report</a>
   <a href="createInstitution" class="icon-a"><i class="fa fa-plus icons"></i> &nbsp;&nbsp;Create Institute</a>
   <a href="logout"class="icon-a"><i class="fa fa-sign-out icons"></i> &nbsp;&nbsp;Logout</a>
 </div>
@@ -21,13 +22,12 @@
 
 	<div class="head">
 		<div class="col-div-6">
-      <span style="font-size:30px;cursor:pointer; color: white;" class="nav"  >&#9776; Attendance</span>
-      <span style="font-size:30px;cursor:pointer; color: white;" class="nav2"  >&#9776; Attendance</span>
+      <span style="font-size:30px;cursor:pointer; color: white;" class="nav"  >&#9776; Report</span>
+      <span style="font-size:30px;cursor:pointer; color: white;" class="nav2"  >&#9776; Report</span>
     </div>
 	
 	<div class="col-div-6">
 	<div class="profile">
-
 		<img src="../static/images/user.png" class="pro-img" />
 		<p>{{ user.username }}<span>{{ user.email }}</span></p>
 	</div>
@@ -36,52 +36,37 @@
     <br><br>
     <div class="col-div-8">
 		<div class="box-8">
-		<div class="content-box">
-	<br/>
-      
-    <div class="table" id="table-scroll">
-        <table id="table">
-          <tr>
-            {% if student == True %}
-            <th>Instructor</th>
-            {% endif %}
-            {% if instructor == True %}
-            <th>Student</th>
-            {% endif %}
-            <th>Course</th>
-            <th>Date Signed</th>
-            <!-- <th>View</th> -->
-          </tr>
-          {% for attendance in attendances %}
-          <tr>
-            {% if instructor == True %}
-            <td>{{ attendance.student }}</td>
-            {% endif %}
-            {% if student == True %}
-            <td>{{ attendance.instructor }}</td>
-            {% endif %}
-            <td>{{ attendance.course.name }}</td>
-            <td>{{ attendance.date_signed }}</td>
-            <!-- <td>
-              <span class="options">
-              <i onclick="viewData(this)" class="fa fa-check-square" aria-hidden="true"></i>
-              </span></td> -->
-          </tr>
-          {% endfor %}
-        </table>
-      </div>
-      </div>
-    </div>
-</div>
+		    <div class="content-box">
+	        <br/>
+            <!-- here -->
+            <form method="post">
+              {% csrf_token %}
+              {% load widget_tweaks %}
+                <fieldset>
+                  <legend>Attendance progress</legend>
+                  <div class="mb-3">
+                    <label for="disabledTextInput" class="form-label input-text">Unique ID:</label>
+                    {% render_field form.unique_id id="disabledTextInput" class="form-control input-input" type="text" placeholder="Your unique ID" %}
+                    <!-- <input type="text" id="disabledTextInput" class="form-control input-input" placeholder="Your unique ID"> -->
+                  </div>
+                  <div class="mb-3">
+                    <label for="disabledTextInput" class="form-label input-text">Session:</label>
+                    <!-- <input type="text" id="disabledTextInput" class="form-control input-input" placeholder="Session"> -->
+                    {% render_field form.academic_session id="disabledTextInput" class="form-control input-input" type="text" placeholder="Session" %}
+                  </div>
+                  <div class="mb-3">
+                    <label for="disabledSelect" class="form-label input-text">Course:</label>
+                    <!-- <input type="text" id="disabledTextInput" class="form-control input-input" placeholder="Course Name"> -->
+                    {% render_field form.course_name id="disabledTextInput" class="form-control input-input" type="text" placeholder="Course Name" %}
+                  </div>
+                  <button type="submit" class="btn btn-primary buttonn">Submit</button>
+                </fieldset>
+              </form>
+            </div>
 		</div>
 	</div>
 
-    <div id="attendance" class="hide">
-        <div class="attendance">
-          <h1>Data Recorded</h1>
-          <p onclick="closeRecord()">X</p>
-        </div>
-
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
     
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>

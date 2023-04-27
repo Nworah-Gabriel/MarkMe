@@ -13,7 +13,7 @@
   <p class="logo"><span><i class="fa fa-medium icons" style="margin-right: 18px;"></i></span>arkMe</p>
   <a href="dashboard" class="icon-a"><i class="fa fa-dashboard icons"></i> &nbsp;&nbsp;Dashboard</a>
   <a href="attendance"class="icon-a"><i class="fa fa-list icons"></i> &nbsp;&nbsp;Attendance</a>
-  <a href="#"class="icon-a"><i class="fa fa-flag icons"></i> &nbsp;&nbsp;Report</a>
+  <a href="report"class="icon-a"><i class="fa fa-flag icons"></i> &nbsp;&nbsp;Report</a>
   <a href="createInstitution" class="icon-a"><i class="fa fa-plus icons"></i> &nbsp;&nbsp;Create Institute</a>
   <a href="logout"class="icon-a"><i class="fa fa-sign-out icons"></i> &nbsp;&nbsp;Logout</a>
 </div>
@@ -23,13 +23,14 @@
 		<div class="col-div-6">
       <span style="font-size:30px;cursor:pointer; color: white;" class="nav">&#9776; Dashboard</span>
       <span style="font-size:30px;cursor:pointer; color: white;" class="nav2">&#9776; Dashboard</span>
+      <p class="id">ID: {{ id }}</p>
     </div>
 	
 	<div class="col-div-6">
 	<div class="profile">
 
 		<img src="../static/images/user.png" class="pro-img" />
-		<p>{{ user }}<span>{{ id }}</span></p>
+		<p>{{ user }}<span>{{ user.email }}</span></p>
 	</div>
 </div>
 	<div class="clearfix"></div>

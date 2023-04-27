@@ -6,12 +6,10 @@ from django.views import View
 from django.contrib.auth.models import AnonymousUser
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Guardians, Instructors, Students, Institutions, Courses, Attendance 
-from uuid import uuid4, UUID
-# Create your views here.
+from uuid import uuid4
+from .form import attendanceProgressForm
 
-# def dashboard(request):
-#     return render(request, "index.html")
-
+#Views are created here.
 
 def attendance(request):
     user = request.user
@@ -22,13 +20,14 @@ def attendance(request):
     try:
         get_user = Instructors.objects.get(password=user.password)
         attendance_list = get_user.attendance.all()
-        student = True
+        print(attendance_list)
+        instructor = True
 
     except (Instructors.DoesNotExist, AttributeError):
         try:
             get_user = Students.objects.get(password=user.password)
             attendance_list = get_user.attendance.all()
-            instructor = True
+            student = True
 
         except Students.DoesNotExist:
             return render(request, "dashboard.html")
@@ -188,7 +187,8 @@ class dashboard(LoginRequiredMixin, View):
         attendance = AttendanceForm(request.POST)
         student = ""
         instructor = ""
-        
+        user_id = ""
+
         if isinstance(user, AnonymousUser):
             return HttpResponse("You cannot access this view")
         else:
@@ -215,7 +215,7 @@ class dashboard(LoginRequiredMixin, View):
             request,
             "dashboard.html",
             {"user":user,
-            "id":str(value.email),
+            "id":str(value.attendance_id),
             "registeredCourses": registeredCourses,
             "course": course,
             "attendance": attendance,
@@ -249,9 +249,10 @@ class dashboard(LoginRequiredMixin, View):
                     course_name = Courses.objects.get(name=name, academic_session=academic_session)
                     new_attendance = Attendance(
                         course=course_name,
+                        course_name=name,
                         academic_session=academic_session,
-                        instructor=student.username,
-                        student=user,
+                        student=student.username,
+                        instructor=instructor_query.username,
                     )
                     new_attendance.save()
 
@@ -261,6 +262,21 @@ class dashboard(LoginRequiredMixin, View):
                     student.save()
                 
                 except:
+                    try:
+                        instructor_query = Instructors.objects.get(username=user, password=user.password, attendance_id=ID)
+                        course_name = Courses.objects.get(name=name, academic_session=academic_session)
+                        new_attendance = Attendance(
+                            course=course_name,
+                            course_name=name,
+                            academic_session=academic_session,
+                            student=instructor_query.username,
+                            instructor=instructor_query.username,
+                        )
+                        new_attendance.save()
+                        instructor_query.attendance.add(new_attendance.id)
+                        instructor_query.save()
+                    except:
+                        pass
                     pass
 
         if request.method == 'POST':
@@ -355,15 +371,14 @@ def delete(request, course_id, academic_session):
     """
 
     
-    try:
-        getit = course_id[1:-1]
-        print(getit, academic_session)
-        course = Courses.objects.get(course_id=getit , academic_session=academic_session)
-        course.delete()
-        course.save()
-        return render(request, "deleteSuccess.html")
-    except:
-        pass
+    # try:
+    getit = course_id[1:-1]
+    course = Courses.objects.get(course_id=getit , academic_session=academic_session)
+    course.delete()
+    course.save()
+    return render(request, "deleteSuccess.html")
+    # except:
+        # pass
     # return HttpResponseRedirect("dashboard")
 
 def home(request):
@@ -372,3 +387,53 @@ def home(request):
     """
 
     return render(request, "landing_page.html")
+
+
+def report(request):
+    """
+    A functional based view for the attendance report
+    """
+    user = request.user
+
+    attendanceProgress = attendanceProgressForm(request.POST)
+
+    if request.method == 'POST':
+        if attendanceProgress.is_valid():
+            unique_id = attendanceProgress.cleaned_data['unique_id']
+            session = attendanceProgress.cleaned_data['academic_session']
+            course_name = attendanceProgress.cleaned_data['course_name']
+
+            try:
+                student_check = Students.objects.get(attendance_id=unique_id)
+                student_attendance = student_check.attendance.filter(academic_session=session, course_name=course_name)
+                instructor = student_attendance[0].instructor
+                instructorCheck = Instructors.objects.get(username=instructor)
+                instructors_attendance = instructorCheck.attendance.filter(academic_session=session, course_name=course_name)
+
+                studentAttendanceCount = 0
+
+                instructorsAttendanceCount = 0
+                for attendance in student_attendance:
+                    studentAttendanceCount += 1
+                for atendance in instructors_attendance:
+                    instructorsAttendanceCount += 1
+
+                value = studentAttendanceCount / instructorsAttendanceCount
+                percentage = int(value * 100)
+            
+            except Students.DoesNotExist:
+                print("does not exist")
+            return render(request,
+                            'test.html',
+                            {
+                                "id":unique_id,
+                                "session":session,
+                                "course":course_name,
+                                "count":studentAttendanceCount,
+                                "percent": percentage,
+                                "total_count": instructorsAttendanceCount 
+                            } 
+                        )
+            # except (Attendance.DoesNotExist, IndexError):
+                # return HttpResponse("Does not exist")
+    return render(request, "report.html", {"form": attendanceProgress})
